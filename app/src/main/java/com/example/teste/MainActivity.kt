@@ -202,9 +202,7 @@ class MainActivity : AppCompatActivity() {
         pcmToWav(pcmFile, wavFile)
 
         val file = File(wavFile.absolutePath)
-        val fileSizeInKB = file.length() / 1024.0
-        val formattedSize = DecimalFormat("#.##").format(fileSizeInKB)
-        val displayText = "$file | ${formattedSize} KB"
+        val displayText = "$file | ${getFileSize(file)} KB"
         recordings.add(displayText)
         adapter.notifyDataSetChanged()
     }
