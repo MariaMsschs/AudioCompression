@@ -17,8 +17,7 @@ import androidx.core.content.ContextCompat
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.text.DecimalFormat
-import com.arthenica.mobileffmpeg.FFmpeg
+import com.arthenica.ffmpegkit.FFmpegKit
 
 class MainActivity : AppCompatActivity() {
 
@@ -220,21 +219,23 @@ class MainActivity : AppCompatActivity() {
 
     //método de compressão
     private fun compressAudio(originalFilePath: String) {
-        //recebem o local onde o aúdio deve ser armazenado e o nome dele
+        // Diretório para salvar o arquivo comprimido
         val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_MUSIC)
-        val compressedFileName = "COMPRESSED_${System.currentTimeMillis()}.m4a"
+        val compressedFileName = "COMPRESSED_${System.currentTimeMillis()}.mp3"
         val compressedFile = File(storageDir, compressedFileName)
 
-        //array com paramêtros da lib
+        // Comando para compressão em MP3
         val command = arrayOf(
             "-i", originalFilePath,
-            "-acodec", "aac",
-            "-b:a", "64k",
+            "-acodec", "libmp3lame", // Codec para MP3
+            "-b:a", "128k",          // Taxa de bits do áudio
             compressedFile.absolutePath
         )
 
-        FFmpeg.executeAsync(command) { _, returnCode ->
-            if (returnCode == 0) {
+        FFmpegKit.executeAsync(command) { session ->
+            val returnCode = session.returnCode
+
+            if (returnCode.isSuccess) {
                 runOnUiThread {
                     Toast.makeText(this, "Audio compressed successfully: ${compressedFile.name}", Toast.LENGTH_LONG).show()
                     val file = File(compressedFile.absolutePath)

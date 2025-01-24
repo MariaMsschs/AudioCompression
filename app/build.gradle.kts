@@ -36,7 +36,7 @@ android {
 }
 
 dependencies {
-    implementation ("com.arthenica:mobile-ffmpeg-full:4.4.LTS")
+    implementation("com.arthenica:ffmpeg-kit-full:4.5.LTS")
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.12.0")
